@@ -4,7 +4,11 @@ const port = 3000
 const url = `http://localhost:${port}`
 
 app.get('/', (req, res) => {
-  res.send('Hola David')
+  res.setHeader('Content-Type', 'text/plain; charset=utf-8')
+  if (req.url === '/') {
+    res.statusCode = 200
+    res.end('Hola David')
+  }
 })
 
 // ruta
