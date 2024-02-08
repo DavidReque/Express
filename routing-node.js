@@ -1,4 +1,4 @@
-const http = require('node:http')
+const http = require('http')
 const dittoJSON = require('./pokemon/ditto.json')
 
 const processRequest = (res, req) => {
@@ -19,7 +19,20 @@ const processRequest = (res, req) => {
     case 'POST':
       switch (url) {
         case '/pokemon': {
-          const body = ''
+          let body = ''
+
+          req.on('data', chunk => {
+            body += chunk.toString()
+          })
+
+          req.on('end', () => {
+            const data = JSON.parse(body)
+            // llamar a una base de datos para guardar la info
+            res.writeHead(201, { 'Content-Type': 'application/json; charset=utf-8' })
+
+            data.timestamp = Date.now()
+            res.end(JSON.stringify(data))
+          })
           break
         }
       }
