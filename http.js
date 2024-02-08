@@ -10,7 +10,7 @@ const url = `http://localhost:${port}`
 app.use('/static', express.static(path.join(__dirname, 'public')))
 
 app.get('/', (req, res) => {
-  res.setHeader('Content-Type', 'text/plain; charset=utf-8')
+  res.setHeader('Content-Type', 'text/html; charset=utf-8')
   if (req.url === '/') {
     res.statusCode = 200
     res.end('Hola David')
