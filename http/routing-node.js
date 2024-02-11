@@ -1,5 +1,5 @@
 const http = require('http')
-const dittoJSON = require('./pokemon/ditto.json')
+const dittoJSON = require('../pokemon/ditto.json')
 
 const processRequest = (res, req) => {
   const { method, url } = req
