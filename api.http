@@ -6,8 +6,9 @@ GET http://localhost:1234/movies
 GET http://localhost:1234/movies/5ad1a235-0d9c-410a-b32b-220d91689a08
 
 ### Recuperar todas las películas por un género
-GET http://localhost:1234/movies?genre=ACTION
+GET http://localhost:1234/movies?genre=action
 
 ### Crear una película con POST
 POST http://localhost:1234/movies
 Content-Type: application/json
+
