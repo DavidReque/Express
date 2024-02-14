@@ -1,7 +1,10 @@
 const express = require('express')
 const movies = require('./movies.json')
+const crypto = require('node:crypto')
+const { validateMovie } = require('./schema/movies')
 
 const app = express()
+app.use(express.json())
 app.disable('x-powered-by')
 
 app.get('/movies', (req, res) => {
@@ -13,6 +16,23 @@ app.get('/movies', (req, res) => {
     return res.json(filteredMovies)
   }
   res.json(movies)
+})
+
+app.post('/movies', (req, res) => {
+  const result = validateMovie(req.body)
+
+  if (!result.success) {
+    return res.status(400).json({ error: JSON.parse(result.error.message) })
+  }
+
+  const newMovie = {
+    id: crypto.randomUUID(),
+    ...result.data
+  }
+
+  movies.push(newMovie)
+
+  res.status(201).json(newMovie)
 })
 
 app.get('/movies/:id', (req, res) => {
