@@ -2,13 +2,33 @@ const express = require('express')
 const movies = require('./movies.json')
 const crypto = require('node:crypto')
 const { validateMovie, validatePartialMovie } = require('./schema/movies')
+const cors = require('cors')
 
 const app = express()
 app.use(express.json())
 app.disable('x-powered-by')
 
+app.use(cors({
+  origin: (origin, callback) => {
+    const ACCEPTED_ORIGINS = [
+      'http://localhost:8080',
+      'http://localhost:1234',
+      'https://movies.com'
+    ]
+
+    if (ACCEPTED_ORIGINS.includes(origin)) {
+      return callback(null, true)
+    }
+
+    if (!origin) {
+      return callback(null, true)
+    }
+
+    return callback(new Error('Not allowed by CORS'))
+  }
+}))
+
 app.get('/movies', (req, res) => {
-  res.header('Access-Control-Allow-Origin', '*')
   const { genre } = req.query
   if (genre) {
     const filteredMovies = movies.filter(
