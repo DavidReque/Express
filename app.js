@@ -8,6 +8,7 @@ app.use(express.json())
 app.disable('x-powered-by')
 
 app.get('/movies', (req, res) => {
+  res.header('Access-Control-Allow-Origin', '*')
   const { genre } = req.query
   if (genre) {
     const filteredMovies = movies.filter(
@@ -33,6 +34,17 @@ app.post('/movies', (req, res) => {
   movies.push(newMovie)
 
   res.status(201).json(newMovie)
+})
+
+app.delete('/movies/:id', (req, res) => {
+  const { id } = req.params
+  const movieIndex = movies.findIndex(movie => movie.id === id)
+  if (movieIndex) {
+    return res.status(404)
+  }
+  movies.splice(movieIndex)
+
+  return res.json({ message: 'movie deleted' })
 })
 
 app.get('/movies/:id', (req, res) => {
