@@ -28,8 +28,3 @@ export function validateMovie (input) {
 export function validatePartialMovie (input) {
   return movieSchema.partial().safeParse(input)
 }
-
-module.exports = {
-  validateMovie,
-  validatePartialMovie
-}
