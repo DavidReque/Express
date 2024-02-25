@@ -1,7 +1,10 @@
 import { randomUUID } from 'node:crypto'
-import { readJSON } from '../../utils.js'
+import { createRequire } from 'node:module'
+const require = createRequire(import.meta.url)
 
-const movies = readJSON('../movies.json')
+export const readJSON = (path) => require(path)
+
+const movies = readJSON('../../movies.json')
 
 export class MovieModel {
   static getAll ({ genre }) {
